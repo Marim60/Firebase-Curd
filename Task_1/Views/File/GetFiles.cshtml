@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "GetUserFiles";
+}
+
+<h2>Enter User ID</h2>
+<form asp-controller="File" asp-action="GetFiles" method="post">
+    <input type="text" name="userId" />
+    <button type="submit">Submit</button>
+</form>
+
+@if (ViewBag.files != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>View</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var imageUrl in ViewBag.files)
+            {
+                <tr>
+                    <td>
+                        <img src="@imageUrl" alt="Image" style="width: 200px; height: auto; margin: 5px;">
+                    </td>
+                    <td>
+                        <a href="@imageUrl" target="_blank">View</a>
+                    </td>
+                    <td>
+                        <form asp-controller="File" asp-action="DeleteFile" method="post">
+                            <input type="hidden" name="userId" value="@ViewBag.UserId" />
+                            <input type="hidden" name="imageUrl" value="@imageUrl" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        No files found in the database.
+    </div>
+}

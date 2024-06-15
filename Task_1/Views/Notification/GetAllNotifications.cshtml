@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "GetAllNotifications";
+}
+
+<h1>GetAllNotifications</h1>
+
+@if (ViewBag.Notifications != null)
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Body</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var notification in ViewBag.Notifications)
+                {
+                    <tr>
+                        <td>@notification.Value.Title</td>
+                        <td>@notification.Value.Body</td>
+                        <td>@notification.Value.Time</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        No notifications found in the database.
+    </div>
+}

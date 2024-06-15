@@ -1,0 +1,17 @@
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Task_1.exe
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\appsettings.Development.json
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\appsettings.json
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Task_1.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Task_1.deps.json
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Task_1.runtimeconfig.json
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Task_1.pdb
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Firebase.Auth.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Firebase.Storage.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\FireSharp.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Microsoft.Threading.Tasks.Extensions.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Microsoft.Threading.Tasks.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\System.Net.Http.Extensions.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\System.Net.Http.Primitives.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\System.ServiceModel.dll
+D:\MariamFCAI\1-FourthYear\CS-Level-4\FCAI-CS-Final-Semester\Cloud Computing\LabTasks\LabTasks\Task_1\bin\Release\net7.0\publish\Newtonsoft.Json.dll

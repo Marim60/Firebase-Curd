@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Task_1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Task_1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Task_1</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="GetAllNotifications">GetAllNotifications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="File" asp-action="Index">Upload File</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="File" asp-action="GetFiles">ShowImages</a>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Task_1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-messaging.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo-HzERgUhUbZsQFUzgJA1rnooBlEw87o",
+            authDomain: "demopush-18ac7.firebaseapp.com",
+            projectId: "demopush-18ac7",
+            storageBucket: "demopush-18ac7.appspot.com",
+            messagingSenderId: "935048468034",
+            appId: "1:935048468034:web:07a2ece488903846e27fdb"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+
+        // Initialize Firebase Cloud Messaging and get a reference to the service
+        const messaging = getMessaging(app);
+        getToken(messaging, { vapidKey: 'BPH39yfzziuIWQrjIjmXcvd3D8q4UMoOLeSs1hBaosg4LpU_vAKN7mEXEA-ojkNeLHNEC7PoULPM3zmATe3QT4I' }).then((currentToken) => {
+            if (currentToken) {
+                // Send the token to your server and update the UI if necessary
+                // ...
+                console.log('Token: ' + currentToken);
+            } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+                // ...
+                requestPermission();
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+            // ...
+        });
+        function requestPermission() {
+            console.log('Requesting permission...');
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                }
+            });
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
