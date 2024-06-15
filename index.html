@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Firebase CRUD</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: left; /* Align content to the left */
+        }
+    
+        input {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
+        .delete-button {
+            background-color: #ff0000;
+            /* Red background color */
+        }
+    
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    
+        img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+    <!------------------------------ Realetime Database ----------------------------------->
+    <label>Your ID:</label>
+    <input type="number" id="id" placeholder="Enter your ID">
+    <br>
+    <input type="file" id="imageUpload" multiple>
+    <br>
+    <button id="upload">Upload Images</button>
+    <button id="retrieve">Retrieve Images</button>
+    <table id="imageTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>View</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="imageTableBody"></tbody>
+    </table>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getDatabase, ref, set, push, get, child, remove } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-storage.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo-HzERgUhUbZsQFUzgJA1rnooBlEw87o",
+            authDomain: "demopush-18ac7.firebaseapp.com",
+            databaseURL: "https://demopush-18ac7-default-rtdb.firebaseio.com/",
+            projectId: "demopush-18ac7",
+            storageBucket: "demopush-18ac7.appspot.com",
+            messagingSenderId: "935048468034",
+            appId: "1:935048468034:web:07a2ece488903846e27fdb",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app, "https://demopush-18ac7-default-rtdb.firebaseio.com/");
+        const storage = getStorage(app);
+
+        const uploadButton = document.getElementById('upload');
+        const retrieveButton = document.getElementById('retrieve');
+        const imageTableBody = document.getElementById('imageTableBody');
+
+        uploadButton.addEventListener('click', () => {
+            const userId = document.getElementById('id').value;
+            console.log("userId: ", userId); // Debugging 
+
+            const files = document.getElementById('imageUpload').files;
+            console.log("files: ", files); // Debugging
+
+            for (let i = 0; i < files.length; i++) {
+                const imageFile = files[i];
+                console.log("imageFile: ", imageFile); // Debugging
+
+                const storagePath = `Uploads/${userId}/${imageFile.name}`; //path that will be stored in the firebase storage
+                console.log("Storage Path: ", storagePath); // Debugging
+
+
+                //sRef is an alias for the ref function imported from the Firebase Storage module.
+                const imageStorageRef = sRef(storage, storagePath);
+                //The imageStorageRef variable now holds a reference to the specific location in Firebase Storage where the image will be uploaded
+                console.log("Image Storage Ref: ", imageStorageRef); // Debugging
+
+                // Upload image to Firebase Storage
+                uploadBytes(imageStorageRef, imageFile).then((snapshot) => {
+                    console.log('Uploaded a file!', snapshot);
+                    // Get the download URL and store it in the Realtime Database
+                    getDownloadURL(snapshot.ref).then((downloadURL) => { // download URL for a given storage reference.
+                        const imagesRef = ref(database, `files/${userId}`); // Use 'ref' from 'firebase-database'
+                        const newImageRef = push(imagesRef); // Use 'push' from 'firebase-database' to generate a unique key
+                        set(newImageRef, downloadURL).then(() => { //save the download URL to the location "newImageRef"
+                            console.log('File URL saved to database!');
+                        });
+                    });
+                });
+            }
+        });
+
+        retrieveButton.addEventListener('click', () => {
+            const userId = document.getElementById('id').value;
+            get(child(ref(database), `files/${userId}`)).then((snapshot) => { //Is there any data for the given path?
+                if (snapshot.exists()) {
+                    imageTableBody.innerHTML = '';
+                    snapshot.forEach((childSnapshot) => {
+                        const imageUrl = childSnapshot.val();
+                        const imageKey = childSnapshot.key;
+                        const imgElement = document.createElement('img');
+                        imgElement.src = imageUrl; // Get the URL from the snapshot
+                        const imgCell = document.createElement('td');
+                        imgCell.appendChild(imgElement);
+
+                        const viewLink = document.createElement('a');
+                        viewLink.href = imageUrl;
+                        viewLink.textContent = 'View';
+                        viewLink.target = '_blank'; // Add this line to open link in new page
+                        const viewCell = document.createElement('td');
+                        viewCell.appendChild(viewLink);
+
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.addEventListener('click', () => {
+                            if (confirm("Are you sure you want to delete this image?")) {
+                                // Delete image from storage
+                                const imageRef = sRef(storage, imageUrl);
+                                deleteObject(imageRef).then(() => {
+                                    console.log('Image deleted from storage.');
+                                    // Delete image URL from database
+                                    remove(child(ref(database), `files/${userId}/${imageKey}`)).then(() => {
+                                        console.log('Image URL deleted from database.');
+                                        // Remove image row from table
+                                        const imageRow = deleteButton.parentNode.parentNode;
+                                        imageRow.remove();
+                                    }).catch((error) => {
+                                        console.error('Error deleting image URL from database:', error);
+                                    });
+                                }).catch((error) => {
+                                    console.error('Error deleting image from storage:', error);
+                                });
+                            }
+                        });
+
+                        const actionCell = document.createElement('td');
+                        actionCell.appendChild(deleteButton);
+
+                        const newRow = document.createElement('tr');
+                        newRow.appendChild(imgCell);
+                        newRow.appendChild(viewCell);
+                        newRow.appendChild(actionCell);
+
+                        imageTableBody.appendChild(newRow);
+                    });
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+
+</html>
